@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'dev.inkwell'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url 's3://hephaestus.dev/release'
+            authentication {
+                awsIm(AwsImAuthentication)
+            }
+        }
+    }
+}
+
+dependencies {
+    compile 'junit:junit:4.12'
+}
